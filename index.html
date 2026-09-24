@@ -28,17 +28,17 @@ select{width:100%;background:#091722;color:white;border:1px solid #2a465a;border
 svg{width:100%;height:auto;display:block;background:#061019;border:1px solid #1d3545;border-radius:11px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:#9ab2c4;margin-top:7px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
 .note{padding:13px;color:#aec3d2;font-size:12px;line-height:1.55}.note b{color:white}.kvgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.kv{background:#09131d;border:1px solid #223a4b;border-radius:10px;padding:8px}.kv span{display:block;color:#7d98ac;font-size:11px}.kv b{font-size:13px}
-.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.compareCard{padding:10px}.compareCard h3{font-size:13px;margin:0 0 8px}.bar{height:8px;background:#09131d;border-radius:999px;overflow:hidden;margin:5px 0 9px}.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#59c3ff,#b69cff)}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.tripleFlow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.tripleCell{background:#07121b;border:1px solid #223d4f;border-radius:12px;padding:8px}.tripleHead{display:flex;justify-content:space-between;font-size:12px;font-weight:800;margin:1px 3px 7px;color:#dff4ff}.tripleHead span{color:#7dd2ff;font-weight:700}.compareCard{padding:10px}.compareCard h3{font-size:13px;margin:0 0 8px}.bar{height:8px;background:#09131d;border-radius:999px;overflow:hidden;margin:5px 0 9px}.fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#59c3ff,#b69cff)}
 .warning{color:#ffd292}.footer{font-size:11px;color:#7895a8;padding:7px 2px}
 .noscript{margin:12px 0;padding:12px;border:1px solid #644a1d;background:#2a1f0d;color:#ffd99b;border-radius:12px}
 @media(max-width:1100px){.layout{grid-template-columns:1fr}.controls{position:static}.views,.charts{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:1fr}}
+@media(max-width:900px){.tripleFlow{grid-template-columns:1fr}}@media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}.compare{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 <div class="top">
-  <div><h1>WingFlow Lab — iPad Edition v2</h1><div class="sub">직선익 · 후퇴익 · 델타익 / 양력 · 항력 · 와류양력 · Cp · Re · Mach · 3익 동시 비교</div></div>
+  <div><h1>WingFlow Lab — 3-Wing Fast Flow v3</h1><div class="sub">직선익 · 후퇴익 · 델타익 / 양력 · 항력 · 와류양력 · Cp · Re · Mach · 3익 동시 비교</div></div>
   <div class="badge">Safari 최적화 · 외부 라이브러리 없음</div>
 </div>
 
@@ -120,6 +120,17 @@ svg{width:100%;height:auto;display:block;background:#061019;border:1px solid #1d
 <section class="panel box"><div class="title">현재 Cp 분포</div><svg id="cpSvg" viewBox="0 0 760 340"></svg></section>
 </div>
 
+
+<section class="panel box">
+  <div class="title">세 날개 실시간 유동 동시 비교 — 동일 받음각 · 유속 · 고도 · 면적</div>
+  <div class="tripleFlow">
+    <div class="tripleCell"><div class="tripleHead">직선익 <span id="tf1">—</span></div><svg id="tfStraight" viewBox="0 0 500 300"></svg></div>
+    <div class="tripleCell"><div class="tripleHead">후퇴익 <span id="tf2">—</span></div><svg id="tfSwept" viewBox="0 0 500 300"></svg></div>
+    <div class="tripleCell"><div class="tripleHead">델타익 <span id="tf3">—</span></div><svg id="tfDelta" viewBox="0 0 500 300"></svg></div>
+  </div>
+  <div class="legend"><span><i class="dot" style="background:#59c3ff"></i>고속 유동 streak</span><span><i class="dot" style="background:#ffb25b"></i>저압/가속 영역</span><span><i class="dot" style="background:#b69cff"></i>분리·와류 경향</span></div>
+</section>
+
 <section class="panel box">
   <div class="title">같은 조건에서 세 날개 동시 비교</div>
   <div class="compare">
@@ -133,7 +144,7 @@ svg{width:100%;height:auto;display:block;background:#061019;border:1px solid #1d
 <section class="panel note"><b id="expTitle">직선익 해석</b><div id="exp" style="margin-top:8px">직선익은 부착 유동에 의한 기본 양력이 주성분입니다.</div><div class="warning" style="margin-top:10px">고받음각의 수치는 정성 비교용입니다.</div></section>
 <section class="panel note"><b>표현 원리</b><br>기본 양력: 유한익 lift slope 근사<br>와류양력: 후퇴각·받음각 기반 Polhamus-inspired 비선형 항<br>항력: 기생 + 유도 + 분리/와류 drag<br>Cp: 상·하면 압력 경향용 근사 분포</section>
 </div>
-<div class="footer">v2: 양(+)의 받음각에서 앞전이 상승하며, 자유류는 수평으로 유입되어 앞전에서 갈라져 날개 주위를 흐르도록 수정했습니다.</div>
+<div class="footer">v3: 참고 영상처럼 유동 streak 속도를 크게 높였고, 직선익·후퇴익·델타익을 같은 조건에서 동시에 비교하도록 추가했습니다.</div>
 </main>
 </div>
 </div>
@@ -154,7 +165,7 @@ var W={
  swept:{name:'후퇴익',sweep:35,t:.09,camber:.016,stall:18,vg:.22,cd0:.021,e:.78,ar:4.5},
  delta:{name:'델타익',sweep:65,t:.045,camber:0,stall:34,vg:1.05,cd0:.026,e:.70,ar:2}
 };
-var wing='straight',anim=true,phase=0;
+var wing='straight',anim=true,phase=0,lastT=0;
 var C={aoa:by('aoa'),speed:by('speed'),alt:by('alt'),area:by('area'),ar:by('ar'),vis:by('vis')};
 
 function aero(type,A,V,h,S,AR){
@@ -289,7 +300,14 @@ function renderFlow(s){
  var a=s.A*Math.PI/180,foilG=el('g',{transform:'translate(430 280) rotate('+(s.A)+')'}),path=el('path',{d:foilPath(wing,s.A),fill:'url(#foilGrad)',stroke:'#effbff','stroke-width':2});foilG.appendChild(path);foil.appendChild(foilG);
  var centers=wing==='delta'?[[.18,-.10,23],[.38,-.14,20],[.58,-.17,17]]:wing==='swept'?[[.28,-.09,18],[.52,-.12,15]]:[[.46,-.08,13]];
  if(s.A>8)for(i=0;i<centers.length;i++){var vp=worldFromBody((centers[i][0]-.25)*312,centers[i][1]*312,s);vor.appendChild(el('circle',{cx:vp.x,cy:vp.y,r:centers[i][2]*(.4+.7*s.vi/100),fill:'url(#vortexGlow)'}))}
- for(i=0;i<90;i++){var yy=20+(i*37)%460,xx=((phase*(35+(i%7)*4)+i*83)%980)-30,ff2=field(xx,yy,s),px=xx,py=yy+10*Math.sin(i+phase*2)*ff2.v;var ps=keepOutside(px,py,s,yy);par.appendChild(el('circle',{cx:ps.x,cy:ps.y,r:1.5,fill:'#bfeaff',opacity:.78}))}
+ for(i=0;i<150;i++){
+ var yy=18+(i*31)%464;
+ var travel=(phase*(150+s.V*2.4)+i*67)%1040;
+ var xx=travel-60, ff2=field(xx,yy,s);
+ var px=xx,py=yy+13*Math.sin(i*.71+phase*8)*ff2.v;
+ var ps=keepOutside(px,py,s,yy);
+ par.appendChild(el('line',{x1:ps.x-8*ff2.u,y1:ps.y-8*ff2.v,x2:ps.x,y2:ps.y,stroke:'#d8f5ff','stroke-width':1.5,'stroke-linecap':'round',opacity:.82}))
+}
  by('flowText1').textContent='V∞ = '+s.V+' m/s';by('flowText2').textContent='α = '+s.A+'°';
 }
 function renderPlan(s){
@@ -310,6 +328,68 @@ function renderCL(s){
 function renderCP(s){
  var svg=by('cpSvg');chartBase(svg,-4,2);var d=cpData(s,wing);function py(v){return 20+(v+4)/6*278}function P(arr,col){var p='';for(var i=0;i<arr.length;i++){var x=55+d.xs[i]*683,y=py(arr[i]);p+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' '}svg.appendChild(el('path',{d:p,fill:'none',stroke:col,'stroke-width':3}))}P(d.u,'#ffb25b');P(d.l,'#59c3ff');
 }
+
+function miniFoilPath(type){
+ var cfg=W[type],t=cfg.t,m=cfg.camber,p=.4,top=[],bot=[],N=44;
+ for(var i=0;i<=N;i++){
+  var x=i/N,yt=5*t*(.2969*Math.sqrt(Math.max(x,.00001))-.126*x-.3516*x*x+.2843*x*x*x-.1015*x*x*x*x),yc=0,dy=0;
+  if(m>0){if(x<p){yc=m/(p*p)*(2*p*x-x*x);dy=2*m/(p*p)*(p-x)}else{yc=m/((1-p)*(1-p))*((1-2*p)+2*p*x-x*x);dy=2*m/((1-p)*(1-p))*(p-x)}}
+  var th=Math.atan(dy);top.push([x-yt*Math.sin(th),yc+yt*Math.cos(th)]);bot.push([x+yt*Math.sin(th),yc-yt*Math.cos(th)]);
+ }
+ var pts=top.concat(bot.reverse()),d='';
+ for(i=0;i<pts.length;i++){var X=(pts[i][0]-.25)*155,Y=-pts[i][1]*155;d+=(i?'L':'M')+X.toFixed(1)+' '+Y.toFixed(1)+' '}
+ return d+'Z';
+}
+function renderMini(svgId,type,s){
+ var svg=by(svgId);clear(svg);
+ svg.appendChild(el('rect',{width:500,height:300,fill:'#071722'}));
+ // colored flow field
+ for(var j=0;j<12;j++)for(var i=0;i<25;i++){
+   var X=(i+.5)*20,Y=(j+.5)*25,dx=(X-245)/155,dy=(Y-158)/155;
+   var near=Math.exp(-(dx*dx/1.15+dy*dy/.11));
+   var upper=Math.exp(-Math.pow((dx+.03)/.55,2)-Math.pow((dy+.08)/.12,2));
+   var vort=(type==='delta'?1:type==='swept'?.48:.14)*(s.vi/100)*Math.exp(-Math.pow((dx-.12)/.72,2)-Math.pow((dy+.12)/.2,2));
+   var val=clamp(.18+.38*upper+.55*vort-.12*near,0,1);
+   svg.appendChild(el('rect',{x:i*20,y:j*25,width:21,height:26,fill:color(type==='delta'?'vorticity':'velocity',val),opacity:.22}));
+ }
+ // Fast horizontal streaks, locally deflected around the airfoil.
+ for(var n=0;n<78;n++){
+   var y0=15+(n*37)%270;
+   var x0=((phase*(230+s.V*3.6)+n*59)%570)-45;
+   var dx=(x0-245)/155,dy=(y0-158)/155;
+   var influence=Math.exp(-Math.pow(dx/.8,2)-Math.pow(dy/.22,2));
+   var side=dy>=0?1:-1;
+   var bend=side*22*influence + Math.sin(s.A*Math.PI/180)*24*influence;
+   var yy=y0+bend;
+   // hide streaks inside approximate solid body
+   var a=s.A*Math.PI/180,ca=Math.cos(a),sa=Math.sin(a),rx=x0-245,ry=yy-158;
+   var xb=rx*ca+ry*sa,yb=-rx*sa+ry*ca,xc=xb/155+.25;
+   var thick=(xc>0&&xc<1)?5*W[type].t*(.2969*Math.sqrt(Math.max(xc,.00001))-.126*xc-.3516*xc*xc+.2843*xc*xc*xc-.1015*xc*xc*xc*xc)*155:0;
+   if(!(xc>0&&xc<1&&Math.abs(yb)<thick+2)){
+    svg.appendChild(el('line',{x1:x0-18,y1:yy,x2:x0+3,y2:yy,stroke:'#d9f7ff','stroke-width':1.5,'stroke-linecap':'round',opacity:.74}));
+   }
+ }
+ // Vortex curls / wake
+ var vg=type==='delta'?1:type==='swept'?.55:.2;
+ if(s.A>8){
+  for(var k=0;k<3;k++){
+   var cx=285+k*42,cy=135-k*7,r=10+k*7+s.vi*.07*vg;
+   var d='M'+(cx+r)+' '+cy;
+   for(var z=1;z<=26;z++){var th=z*.38,rr=r*(1-z/34),xx=cx+rr*Math.cos(th),yy=cy+rr*Math.sin(th);d+=' L'+xx.toFixed(1)+' '+yy.toFixed(1)}
+   svg.appendChild(el('path',{d:d,fill:'none',stroke:'#c5a9ff','stroke-width':2,'stroke-opacity':.28+.42*vg}));
+  }
+ }
+ var g=el('g',{transform:'translate(245 158) rotate('+s.A+')'});
+ g.appendChild(el('path',{d:miniFoilPath(type),fill:'url(#foilGrad)',stroke:'#f4fbff','stroke-width':2}));
+ svg.appendChild(g);
+ var tx=el('text',{x:12,y:22,fill:'#dff5ff','font-size':11,'font-family':'system-ui'});
+ tx.textContent='α '+s.A+'°   V∞ '+s.V+' m/s   Cₗ '+s.cl.toFixed(2);svg.appendChild(tx);
+}
+function renderTriple(A,V,h,S){
+ var s1=aero('straight',A,V,h,S,W.straight.ar),s2=aero('swept',A,V,h,S,W.swept.ar),s3=aero('delta',A,V,h,S,W.delta.ar);
+ renderMini('tfStraight','straight',s1);renderMini('tfSwept','swept',s2);renderMini('tfDelta','delta',s3);
+ by('tf1').textContent='와류양력 '+force(s1.Lv);by('tf2').textContent='와류양력 '+force(s2.Lv);by('tf3').textContent='와류양력 '+force(s3.Lv);
+}
 function compare(A,V,h,S){var types=['straight','swept','delta'],ids=['1','2','3'],max=0,arr=[];for(var i=0;i<3;i++){var s=aero(types[i],A,V,h,S,W[types[i]].ar);arr.push(s);max=Math.max(max,s.cl)}for(i=0;i<3;i++){by('c'+ids[i]+'cl').textContent=arr[i].cl.toFixed(2);by('c'+ids[i]+'v').textContent=force(arr[i].Lv);by('c'+ids[i]+'bar').style.width=(max?arr[i].cl/max*100:0).toFixed(0)+'%'}}
 function update(){
  var A=+C.aoa.value,V=+C.speed.value,h=+C.alt.value,S=+C.area.value,AR=+C.ar.value,s=aero(wing,A,V,h,S,AR),cp=cpData(s,wing);
@@ -317,13 +397,24 @@ function update(){
  by('lift').textContent=force(s.L);by('drag').textContent=force(s.D);by('cl').textContent=s.cl.toFixed(2);by('cd').textContent=s.cd.toFixed(3);by('ld').textContent=(s.L/Math.max(1e-9,s.D)).toFixed(1);by('vlift').textContent=force(s.Lv);
  by('rho').textContent=s.rho.toFixed(3);by('q').textContent=(s.q/1000).toFixed(2)+' kPa';by('mach').textContent=s.M.toFixed(2);by('re').textContent=s.Re.toExponential(2);by('chord').textContent=s.c.toFixed(2)+' m';by('span').textContent=s.b.toFixed(2)+' m';
  by('expTitle').textContent=W[wing].name+' 해석';by('exp').innerHTML=wing==='delta'?'델타익은 날카로운 앞전에서 분리된 유동이 좌우 leading-edge vortex를 만들고, 그 저압 core가 추가적인 <b>와류양력</b>을 만듭니다. 현재 와류양력은 <b>'+force(s.Lv)+'</b>입니다.':wing==='swept'?'후퇴익은 직선익보다 기본 lift slope가 감소하지만 고받음각에서 분리·tip vortex 영향이 커집니다. 현재 와류양력은 <b>'+force(s.Lv)+'</b>입니다.':'직선익은 기본적인 부착 유동 양력이 주성분입니다. 실속 이후 분리가 증가하면서 기본 Cₗ의 증가가 둔화됩니다.';
- renderFlow(s);renderPlan(s);renderCL(s);renderCP(s);compare(A,V,h,S);
+ renderFlow(s);renderPlan(s);renderCL(s);renderCP(s);renderTriple(A,V,h,S);compare(A,V,h,S);
 }
 var btns=document.querySelectorAll('[data-wing]');for(var i=0;i<btns.length;i++)btns[i].onclick=function(){for(var j=0;j<btns.length;j++)btns[j].classList.remove('active');this.classList.add('active');wing=this.getAttribute('data-wing');C.ar.value=W[wing].ar;update()};
 for(var key in C)C[key].addEventListener('input',update);
 by('toggle').onclick=function(){anim=!anim;by('animV').textContent=anim?'ON':'OFF';this.textContent=anim?'Pause':'Play'};
 by('reset').onclick=function(){phase=0;update()};
-function loop(){if(anim){phase+=.018;var s=aero(wing,+C.aoa.value,+C.speed.value,+C.alt.value,+C.area.value,+C.ar.value);renderFlow(s)}requestAnimationFrame(loop)}
+function loop(t){
+ if(!lastT)lastT=t;
+ var dt=Math.min(.05,(t-lastT)/1000);lastT=t;
+ if(anim){
+   phase+=dt*2.7;
+   var A=+C.aoa.value,V=+C.speed.value,h=+C.alt.value,S=+C.area.value;
+   var s=aero(wing,A,V,h,S,+C.ar.value);
+   renderFlow(s);
+   renderTriple(A,V,h,S);
+ }
+ requestAnimationFrame(loop)
+}
 update();requestAnimationFrame(loop);
 })();
 </script>
